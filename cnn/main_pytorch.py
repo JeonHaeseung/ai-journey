@@ -150,7 +150,7 @@ def model_setup(device):
     return model, criterion, optimizer
 
 
-def run_experiment():
+if __name__ == "__main__":
     dirs_setup()
     device = device_setup()
     train_loader, test_loader = dataset_setup()
@@ -162,7 +162,3 @@ def run_experiment():
 
     train_model(model, train_loader, criterion, optimizer, EPOCHS, writer, device)
     test_model(model, test_loader, device, writer)
-
-
-if __name__ == "__main__":
-    run_experiment()
