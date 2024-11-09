@@ -33,19 +33,19 @@ BATCH_SIZE = 128
 EPOCHS = 10
 LR = 0.0001
 
-def set_dirs():
+def dirs_setup():
     if not os.path.exists(LOG_DIR):
         os.makedirs(LOG_DIR)
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
 
-def set_device():
+def device_setup():
     os.environ["CUDA_VISIBLE_DEVICES"] = GPU_ID
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     return device
 
 
-def set_dataset():
+def dataset_setup():
     transform = transforms.Compose([
         transforms.Resize(IMAGE_SIZE),
         transforms.ToTensor()
@@ -142,7 +142,7 @@ def test_model(model, test_loader, device, writer):
     writer.add_scalar('Accuracy/test', accuracy)
 
 
-def set_model(device):
+def model_setup(device):
     model = AlexNet(num_classes=NUM_CLASSES)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=LR)
@@ -151,10 +151,10 @@ def set_model(device):
 
 
 def run_experiment():
-    set_dirs()
-    device = set_device()
-    train_loader, test_loader = set_dataset()
-    model, criterion, optimizer = set_model(device)
+    dirs_setup()
+    device = device_setup()
+    train_loader, test_loader = dataset_setup()
+    model, criterion, optimizer = model_setup(device)
     
     # check with terminal command: tensorboard --logdir TB_LOG_PATH
     # You can see the logs in localhost:6006
